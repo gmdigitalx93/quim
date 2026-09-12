@@ -21,7 +21,11 @@ Esto es un demonio de escritorio (macOS, Linux, Windows) y **no corre en el
 teléfono**: ni iOS ni Android dejan que un proceso propio escuche el micrófono
 en segundo plano de forma indefinida.
 
-Para iPhone hay dos guías aparte, las dos con Siri como palabra de activación:
+Para iPhone, lo primero: si tienes la app de Claude instalada, publica una acción
+de Atajos llamada **Iniciar conversación de voz**. Un atajo con esa sola acción ya
+te da tu palabra clave («Oye Siri, Jarvis») sin clave de API ni nada más. Las guías
+de abajo son para cuando necesitas algo que eso no da —contestar sin abrir la app,
+tu propio prompt, o ejecutar cosas en tu ordenador:
 
 - **[«Oye Siri, Claude» →](ios/ATAJO-SIRI.md)** — el atajo llama a la API por su
   cuenta. Funciona en cualquier sitio; la clave queda dentro del atajo.

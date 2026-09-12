@@ -16,6 +16,39 @@ Funciona con la pantalla bloqueada, con AirPods, en CarPlay y desde el Apple Wat
 
 ---
 
+## Antes que nada: ¿te vale el modo de voz de la app?
+
+Si tienes instalada la app de Claude, ya publica una acción de Atajos llamada
+**Iniciar conversación de voz**. Un atajo con esa única acción, renombrado a lo
+que quieras, y ya tienes tu palabra clave:
+
+> **«Oye Siri, Jarvis»** → se abre Claude escuchándote.
+
+Un bloque. Sin clave de API, sin JSON, sin ordenador encendido, y va contra tu
+suscripción en vez de gastar créditos de la API. Además es el modo de voz real:
+conversación fluida, con interrupciones, no el ciclo de dictar y esperar.
+
+**Prueba esto primero.** Todo lo que viene después solo merece la pena si te
+falta algo que esa acción no da:
+
+| | Modo de voz de la app | El atajo de esta guía |
+|---|---|---|
+| Montaje | una acción | nueve acciones |
+| Clave de API | no hace falta | dentro del atajo |
+| Prompt, modelo, longitud | lo que trae la app | tuyos |
+| Abre la app | sí | no, contesta por voz sin salir de Siri |
+| Coste | tu suscripción | por token |
+
+Lo segundo de esa lista es lo que decide: si quieres preguntar algo sin sacar el
+teléfono del bolsillo, con la pantalla bloqueada o por los AirPods, sigue
+leyendo. Si quieres conversar de verdad con Claude, usa la acción de la app.
+
+> No he podido comprobar en un iPhone si esa acción funciona con la pantalla
+> bloqueada o requiere desbloquear y mirar. Pruébalo: es lo que decide cuál de
+> las dos vías te sirve.
+
+---
+
 ## Opción rápida: importar el atajo ya hecho
 
 En `ios/Claude.shortcut` está el atajo montado, con las diez acciones puestas.
