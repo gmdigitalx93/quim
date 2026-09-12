@@ -15,6 +15,15 @@ voz hablada ◀── síntesis (Piper / voz del sistema) ◀── Claude (stre
 La detección de la palabra clave es **local**: no se envía audio a ningún sitio
 hasta que dices «oye claude». Solo entonces se manda la transcripción a la API.
 
+## ¿Y en el celular?
+
+Esto es un demonio de escritorio (macOS, Linux, Windows) y **no corre en el
+teléfono**: ni iOS ni Android dejan que un proceso propio escuche el micrófono
+en segundo plano de forma indefinida.
+
+Para iPhone hay una guía aparte que usa Siri como palabra de activación:
+**[«Oye Siri, Claude» →](ios/ATAJO-SIRI.md)**
+
 ## Requisitos
 
 - Python 3.10 o superior
@@ -113,6 +122,8 @@ tabla de arriba.
 ## Estructura
 
 ```
+ios/
+  ATAJO-SIRI.md  guía del atajo de Siri para iPhone
 voz/
   app.py      bucle principal: palabra clave → grabar → responder
   audio.py    micrófono y detección de fin de frase
