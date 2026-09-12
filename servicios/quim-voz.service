@@ -1,0 +1,18 @@
+# Autoarranque en Linux (servicio de usuario, para tener acceso al audio de la sesión).
+#   mkdir -p ~/.config/systemd/user
+#   cp servicios/quim-voz.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now quim-voz
+[Unit]
+Description=Asistente de voz «oye claude»
+After=sound.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/quim
+ExecStart=%h/quim/.venv/bin/python -m voz
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

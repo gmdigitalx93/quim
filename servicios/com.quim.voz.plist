@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Autoarranque en macOS.
+  1. Ajusta las rutas de abajo (RUTA_AL_PROYECTO).
+  2. cp servicios/com.quim.voz.plist ~/Library/LaunchAgents/
+  3. launchctl load -w ~/Library/LaunchAgents/com.quim.voz.plist
+  Concede permiso de micrófono cuando el sistema lo pida.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.quim.voz</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>RUTA_AL_PROYECTO/.venv/bin/python</string>
+    <string>-m</string>
+    <string>voz</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>RUTA_AL_PROYECTO</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/quim-voz.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/quim-voz.err</string>
+</dict>
+</plist>

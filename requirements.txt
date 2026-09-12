@@ -1,0 +1,16 @@
+# Núcleo
+anthropic>=1.0.0
+sounddevice>=0.4.6
+numpy>=1.24
+
+# Detección de la palabra clave "oye claude" (offline)
+vosk>=0.3.45
+
+# Transcripción de la solicitud (offline, opcional pero recomendado)
+faster-whisper>=1.0.3
+
+# Detección de voz/silencio más precisa (opcional)
+webrtcvad-wheels>=2.0.14
+
+# Voz sintetizada de respaldo multiplataforma (opcional)
+pyttsx3>=2.90
