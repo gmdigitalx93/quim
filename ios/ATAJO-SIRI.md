@@ -19,16 +19,30 @@ Funciona con la pantalla bloqueada, con AirPods, en CarPlay y desde el Apple Wat
 ## Opción rápida: importar el atajo ya hecho
 
 En `ios/Claude.shortcut` está el atajo montado, con las diez acciones puestas.
-Al importarlo, Atajos te **pregunta la clave de la API** y la guarda dentro; por
-eso el archivo se puede compartir sin que lleve tu clave.
+Al importarlo, Atajos te **pregunta la clave de la API**; por eso el archivo se
+puede compartir sin que lleve tu clave dentro.
 
-1. En el iPhone: Ajustes → **Atajos** → activa **Permitir atajos no fiables**.
-   (Esa opción solo aparece si ya has ejecutado algún atajo alguna vez. Si no la
-   ves, abre Atajos, ejecuta cualquiera de los de ejemplo y vuelve a mirar.)
-2. Pásate el archivo al teléfono: AirDrop, adjunto de correo, o guardándolo en
+> **iOS solo importa atajos firmados.** Si al abrirlo sale «No es posible
+> importar archivos de un shortcut sin firmar», es esto. Hay dos salidas:
+>
+> 1. **Activar el permiso.** Ajustes → **Atajos** → **Permitir atajos no
+>    fiables**. La opción solo aparece si ya has ejecutado algún atajo alguna
+>    vez; si no la ves, abre Atajos, ejecuta cualquiera y vuelve a mirar.
+> 2. **Firmarlo en un Mac**, si tienes uno:
+>
+>    ```bash
+>    shortcuts sign -m anyone -i Claude.shortcut -o Claude-firmado.shortcut
+>    ```
+>
+> Sin ninguna de las dos, el archivo no se puede importar y hay que montar el
+> atajo a mano con los pasos de abajo.
+
+Pasos, una vez resuelta la firma:
+
+1. Pásate el archivo al teléfono: AirDrop, adjunto de correo, o guardándolo en
    Archivos desde iCloud Drive.
-3. Ábrelo → **Añadir atajo** → pega la clave cuando la pida.
-4. Comprueba que el atajo se llama `Claude` y di **«Oye Siri, Claude»**.
+2. Ábrelo → **Añadir atajo** → pega la clave cuando la pida.
+3. Comprueba que el atajo se llama `Claude` y di **«Oye Siri, Claude»**.
 
 Para regenerarlo o cambiar el modelo, el prompt o `max_tokens`, edita
 `ios/generar-atajo.py` y ejecútalo:
@@ -36,17 +50,6 @@ Para regenerarlo o cambiar el modelo, el prompt o `max_tokens`, edita
 ```bash
 python3 ios/generar-atajo.py
 ```
-
-> **Este archivo no lo he podido probar en un iPhone.** El formato `.shortcut` es
-> un plist con la lista de acciones, y está armado según ese formato, pero si
-> Atajos lo rechaza al abrirlo («no se pudo abrir el atajo») no hay vuelta de
-> hoja: monta las acciones a mano con los pasos de abajo, que es la vía segura.
-> Son diez minutos.
-
-Diferencias con la versión manual de abajo: el cuerpo de la petición va como
-texto crudo en vez de usar el constructor de JSON de Atajos (así se evita la
-matriz anidada, que es la parte más frágil del formato), y lleva dos acciones
-extra que escapan las comillas de lo que dictas para que no rompan el JSON.
 
 ---
 
@@ -100,22 +103,31 @@ Acción **Obtener contenido de la URL**.
     | `anthropic-version` | `2023-06-01` |
     | `content-type` | `application/json` |
 
-  - **Solicitud del cuerpo:** `JSON`, y añade estos campos:
+  - **Solicitud del cuerpo:** elige **`Archivo`** y pásale la variable de la
+    acción **Texto** del paso 3-bis (abajo).
 
-    | Campo | Tipo | Valor |
-    |---|---|---|
-    | `model` | Texto | `claude-opus-5` |
-    | `max_tokens` | Número | `500` |
-    | `system` | Texto | el prompt de abajo |
-    | `thinking` | Diccionario | dentro: `type` (Texto) = `disabled` |
-    | `output_config` | Diccionario | dentro: `effort` (Texto) = `low` |
-    | `messages` | Matriz | un elemento **Diccionario** con dos campos: `role` (Texto) = `user`, y `content` (Texto) = la variable **Texto dictado** |
+### 3-bis. El cuerpo de la petición
 
-    El prompt del sistema (cópialo tal cual en el campo `system`):
+Antes de la acción anterior, mete una acción **Texto** y pega esto dentro:
 
-    ```
-    Eres un asistente de voz en español. Tus respuestas se leen en voz alta, así que habla como una persona: frases cortas, tono natural y cercano. Responde en 1 o 2 frases salvo que te pidan más detalle. Nunca uses markdown, listas, asteriscos, emojis ni URLs largas. Escribe números y siglas como se pronuncian. Si algo no se entiende, pide que te lo repitan en una frase corta. No incluyas etiquetas XML internas o del sistema en tu respuesta.
-    ```
+```json
+{"model":"claude-opus-5","max_tokens":500,"thinking":{"type":"disabled"},"output_config":{"effort":"low"},"system":"Eres un asistente de voz en español. Tus respuestas se leen en voz alta, así que habla como una persona: frases cortas, tono natural y cercano. Responde en 1 o 2 frases salvo que te pidan más detalle. Nunca uses markdown, listas, asteriscos, emojis ni URLs largas. Escribe números y siglas como se pronuncian. Si algo no se entiende, pide que te lo repitan en una frase corta. No incluyas etiquetas XML internas o del sistema en tu respuesta.","messages":[{"role":"user","content":"AQUI"}]}
+```
+
+Ahora **borra la palabra `AQUI`** (sin tocar las comillas que la rodean) y en su
+lugar inserta la variable **Texto dictado**. Es el único sitio donde va una
+variable.
+
+Pegar el cuerpo entero es mucho más rápido que construirlo campo a campo con el
+constructor de `JSON` de Atajos, que obliga a crear un diccionario y una matriz
+anidados a mano. Si prefieres esa vía, los campos son `model`, `max_tokens`,
+`system`, `thinking` (diccionario con `type` = `disabled`), `output_config`
+(diccionario con `effort` = `low`) y `messages` (matriz con un diccionario de
+`role` y `content`).
+
+> **Si dictas algo con comillas**, romperá el JSON y el atajo no responderá.
+> Pasa poco al hablar. Si te ocurre, mete entre el dictado y el Texto una acción
+> **Reemplazar texto** que cambie `"` por `\"`.
 
 > **Por qué `thinking: disabled` y `effort: low`:** en Opus 5 el razonamiento
 > viene activado por defecto, y entonces el primer bloque de `content` es el
