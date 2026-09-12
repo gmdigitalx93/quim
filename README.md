@@ -21,9 +21,12 @@ Esto es un demonio de escritorio (macOS, Linux, Windows) y **no corre en el
 teléfono**: ni iOS ni Android dejan que un proceso propio escuche el micrófono
 en segundo plano de forma indefinida.
 
-Para iPhone hay una guía aparte que usa Siri como palabra de activación, con el
-atajo ya montado en `ios/Claude.shortcut` para importarlo sin construirlo a mano:
-**[«Oye Siri, Claude» →](ios/ATAJO-SIRI.md)**
+Para iPhone hay dos guías aparte, las dos con Siri como palabra de activación:
+
+- **[«Oye Siri, Claude» →](ios/ATAJO-SIRI.md)** — el atajo llama a la API por su
+  cuenta. Funciona en cualquier sitio; la clave queda dentro del atajo.
+- **[Vía SSH →](ios/POR-SSH.md)** — tres acciones, y la clave se queda en el
+  ordenador. Más simple, pero necesita esa máquina encendida y accesible.
 
 ## Requisitos
 
@@ -125,6 +128,7 @@ tabla de arriba.
 ```
 ios/
   ATAJO-SIRI.md    guía del atajo de Siri para iPhone
+  POR-SSH.md       la variante de tres acciones, contra tu ordenador
   Claude.shortcut  el atajo ya montado, listo para importar
   generar-atajo.py genera el .shortcut (edítalo para cambiar modelo o prompt)
 voz/
@@ -133,6 +137,7 @@ voz/
   wake.py     detección de «oye claude» (Vosk, offline)
   stt.py      transcripción (faster-whisper o Vosk)
   cerebro.py  conversación con Claude, emitida frase a frase
+  pregunta.py una pregunta por stdin, una respuesta por stdout (para SSH)
   tts.py      voz sintetizada (Piper / say / SAPI / espeak)
   config.py   configuración y carga del .env
 ```
