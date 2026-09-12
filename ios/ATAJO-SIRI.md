@@ -16,6 +16,40 @@ Funciona con la pantalla bloqueada, con AirPods, en CarPlay y desde el Apple Wat
 
 ---
 
+## Opción rápida: importar el atajo ya hecho
+
+En `ios/Claude.shortcut` está el atajo montado, con las diez acciones puestas.
+Al importarlo, Atajos te **pregunta la clave de la API** y la guarda dentro; por
+eso el archivo se puede compartir sin que lleve tu clave.
+
+1. En el iPhone: Ajustes → **Atajos** → activa **Permitir atajos no fiables**.
+   (Esa opción solo aparece si ya has ejecutado algún atajo alguna vez. Si no la
+   ves, abre Atajos, ejecuta cualquiera de los de ejemplo y vuelve a mirar.)
+2. Pásate el archivo al teléfono: AirDrop, adjunto de correo, o guardándolo en
+   Archivos desde iCloud Drive.
+3. Ábrelo → **Añadir atajo** → pega la clave cuando la pida.
+4. Comprueba que el atajo se llama `Claude` y di **«Oye Siri, Claude»**.
+
+Para regenerarlo o cambiar el modelo, el prompt o `max_tokens`, edita
+`ios/generar-atajo.py` y ejecútalo:
+
+```bash
+python3 ios/generar-atajo.py
+```
+
+> **Este archivo no lo he podido probar en un iPhone.** El formato `.shortcut` es
+> un plist con la lista de acciones, y está armado según ese formato, pero si
+> Atajos lo rechaza al abrirlo («no se pudo abrir el atajo») no hay vuelta de
+> hoja: monta las acciones a mano con los pasos de abajo, que es la vía segura.
+> Son diez minutos.
+
+Diferencias con la versión manual de abajo: el cuerpo de la petición va como
+texto crudo en vez de usar el constructor de JSON de Atajos (así se evita la
+matriz anidada, que es la parte más frágil del formato), y lleva dos acciones
+extra que escapan las comillas de lo que dictas para que no rompan el JSON.
+
+---
+
 ## Antes de empezar
 
 - App **Atajos** (viene con iOS).

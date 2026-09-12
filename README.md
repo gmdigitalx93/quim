@@ -21,7 +21,8 @@ Esto es un demonio de escritorio (macOS, Linux, Windows) y **no corre en el
 teléfono**: ni iOS ni Android dejan que un proceso propio escuche el micrófono
 en segundo plano de forma indefinida.
 
-Para iPhone hay una guía aparte que usa Siri como palabra de activación:
+Para iPhone hay una guía aparte que usa Siri como palabra de activación, con el
+atajo ya montado en `ios/Claude.shortcut` para importarlo sin construirlo a mano:
 **[«Oye Siri, Claude» →](ios/ATAJO-SIRI.md)**
 
 ## Requisitos
@@ -123,7 +124,9 @@ tabla de arriba.
 
 ```
 ios/
-  ATAJO-SIRI.md  guía del atajo de Siri para iPhone
+  ATAJO-SIRI.md    guía del atajo de Siri para iPhone
+  Claude.shortcut  el atajo ya montado, listo para importar
+  generar-atajo.py genera el .shortcut (edítalo para cambiar modelo o prompt)
 voz/
   app.py      bucle principal: palabra clave → grabar → responder
   audio.py    micrófono y detección de fin de frase
